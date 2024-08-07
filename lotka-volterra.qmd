@@ -68,14 +68,14 @@ To find an approximate solution in R, we will need four things:
 
 ```{r}
 # Create a sequence of times (days) ----
-time <- seq(from = 0, to = 50, by = 0.05)
+time <- seq(from = 0, to = 50, by = 0.01)
 
 # Set some parameter values (these can change - keep it in mind) ----
-parameters <- c(r = .75, alpha = 0.8, beta = 0.5, q = 1)
+parameters <- c(r = 1, alpha = 0.8, beta = 0.5, q = 1)
 
 # Set the initial condition (prey and predator populations at t = 0) ----
 # Recall: V = prey, P = predator
-init_cond <- c(V = 10, P = 4)
+init_cond <- c(V = 15, P = 15)
 
 # Prepare the series of differential equations as a function ----
 lv_equations <- function(time, init_cond, parameters) {
@@ -87,7 +87,10 @@ lv_equations <- function(time, init_cond, parameters) {
 }
 
 # Find the approximate the solution using `deSolve::ode()` ----
-approx_lv <- ode(y = init_cond, times = time, func = lv_equations, parms = parameters)
+approx_lv <- ode(y = init_cond, 
+                 times = time, 
+                 func = lv_equations, 
+                 parms = parameters)
 
 # Check the class ----
 class(approx_lv)
@@ -98,7 +101,7 @@ approx_lk_df <- data.frame(approx_lv) |>
 
 # Plot it ----
 ggplot(data = approx_lk_df, aes(x = time, y = population)) +
-  geom_line(aes(color = species), linewidth = 1.2)
+  geom_line(aes(color = species), linewidth = 0.25)
 ```
 
 ### iv. Try updating initial conditions and / or parameters
